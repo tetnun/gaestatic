@@ -1,3 +1,6 @@
+//
+// @Author Nobuhisa TAKAHASHI
+//
 package gaestatic
 
 import (

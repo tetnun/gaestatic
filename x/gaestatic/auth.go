@@ -1,5 +1,5 @@
 //
-// @Author Nobuhisa TAKAHSHI
+// @Author Nobuhisa TAKAHASHI
 //
 package gaestatic
 
