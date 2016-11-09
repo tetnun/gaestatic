@@ -3,9 +3,36 @@ Google App Engine (static file with BasicAuth)
 
 ## Requirements
 
-* Google App Engine
+* Google App Engine (golang)
 * Google Cloud Storage
+    * **READ** Permission from **GAE** for **bucket** and **object**.
+    * Edit **bucket** permission.
 
+    ex.)
+    
+        Google Cloud Platform Console
+        -> Storage
+        -> Select Bucket
+        -> Edit **bucket** permissions
+        -> Add item
+        ENTITY=User,
+        NAME=YOUR GAE Service Account (eg. example@appspot.gserviceaccount.com),
+        ACCESS=Read
+        
+    * Edit **object** permission.
+
+    ex.)
+    
+        Google Cloud Platform Console
+        -> Storage
+        -> Select Bucket
+        -> Edit **object** permissions
+        -> Add item
+        ENTITY=User,
+        NAME=YOUR GAE Service Account (eg. example@appspot.gserviceaccount.com),
+        ACCESS=Read
+        
+    
 ## Example
 
 ### Files
@@ -76,3 +103,16 @@ env_variables:
 | YOUR_BASIC_AUTH_OBJECT_ROOT | apps/ |
 | YOUR_PUB_BUCKET_NAME | example-gcs-a |
 | YOUR_PUB_OBJECT_ROOT | pub/ |
+
+### URL mapping
+
+| No.| URL | Local Location |
+| --: | --- | --- |
+| 1 | https://{YOUR_APPLICATION}.appspot.com/apps/ | gs://{YOUR_BASIC_AUTH_GCS_BUCKET_NAME}/{YOUR_BASIC_AUTH_OBJECT_ROOT} |
+| 2 | https://{YOUR_APPLICATION}.appspot.com/ (\*1.)| gs://{YOUR_PUB_BUCKET_NAME}/{YOUR_PUB_OBJECT_ROOT} |
+
+*1. exclude URL (No.1)
+
+
+
+
