@@ -1,4 +1,4 @@
-package gaestatic
+package v1n
 
 import (
     "io"

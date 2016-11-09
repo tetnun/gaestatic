@@ -1,7 +1,7 @@
 //
 // @Author Nobuhisa TAKAHSHI
 //
-package gaestatic
+package v1n
 
 import (
     "net/http"
