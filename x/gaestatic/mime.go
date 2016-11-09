@@ -1,4 +1,4 @@
-package v1n
+package gaestatic
 
 import (
     "regexp"
