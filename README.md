@@ -19,7 +19,7 @@ Google App Engine (static file with BasicAuth)
 ### Examples
 
 | No. | path | Notes |
-| --@ | --- | --- | 
+| --: | --- | --- |
 | 1 | example/1 | Most simple example. This use static files on GCS. | 
 | 2 | example/2 | This use static files on GCS and GAE. |
 
