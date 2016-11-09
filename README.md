@@ -16,6 +16,13 @@ Google App Engine (static file with BasicAuth)
 +- app.yaml
 ```
 
+### Examples
+
+| No. | path | Notes |
+| --@ | --- | --- | 
+| 1 | example/1 | Most simple example. This use static files on GCS. | 
+| 2 | example/2 | This use static files on GCS and GAE. |
+
 #### Example - app.go
 
 ```
@@ -41,37 +48,7 @@ api_version: go1
 threadsafe: no
 
 handlers:
-- url: /$
-  static_files: pub/index.html
-  upload: pub/index.html$
-- url: /css
-  static_dir: pub/css
-- url: /js
-  static_dir: pub/js
-- url: /img
-  static_dir: pub/img
-- url: /ipa
-  static_dir: pub/ipa
-  mime_type: "application/octet-stream"
-- url: /plist
-  static_dir: pub/plist
-  mime_type: "application/x-plist"
-- url: /apps/$
-  static_files: pub/apps/index.html
-  upload: pub/apps/index.html$
-  secure: always
-- url: /(apps/.*\.html)$
-  static_files: pub/\1
-  upload: pub/(apps/.*\.html)$
-  secure: always
-- url: /(apps/.*)/$
-  static_files: pub/\1/index.html
-  upload: pub/(apps/.*/index.html)$
-  secure: always
 - url: /apps/.*
-  script: _go_app
-  secure: always
-- url: /api/.*
   script: _go_app
   secure: always
 
