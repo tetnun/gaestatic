@@ -72,7 +72,6 @@ env_variables:
 | YOUR_BASIC_AUTH_REALM | 'example realm' |
 | YOUR_BASIC_AUTH_USER_NAME | user123 |
 | YOUR_BASIC_AUTH_PASSWORD | pass123 |
-| YOUR_BASIC_AUTH_OBJECT_ROOT | |
 | YOUR_BASIC_AUTH_GCS_BUCKET_NAME | example-gcs-a |
 | YOUR_BASIC_AUTH_OBJECT_ROOT | apps/ |
 | YOUR_PUB_BUCKET_NAME | example-gcs-a |
