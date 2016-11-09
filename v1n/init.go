@@ -10,36 +10,32 @@ import (
     "google.golang.org/appengine"
 )
 
-/**
- * Use Google Cloud Storage
- * https://godoc.org/cloud.google.com/go/storage
- */
+// GCS Basic Auth Path Handler
 func authHandler(w http.ResponseWriter, r *http.Request) {
     gcs(w, r, true)
 }
 
+// GCS Public Path Handler
 func pubHandler(w http.ResponseWriter, r *http.Request) {
     gcs(w, r, false)
 }
 
+// All Error Handler
 func allErrorHandler(w http.ResponseWriter, r *http.Request) {
     // Internal Server Errror
     w.WriteHeader(500)
 }
 
-// https://github.com/GoogleCloudPlatform/google-cloud-go/blob/master/examples/storage/appengine/app.go
-func errorHandler(w http.ResponseWriter, r *http.Request, s string) {
-    fmt.Fprint(w, s)    
-}
-
-/**
- * Basic認証処理
- */
+// Basic Auth Handler
 func outputUnauth(w http.ResponseWriter) {
-    w.Header().Set("WWW-Authenticate", `Basic realm="MY REALM"`)
+    config := GetAppConfig()
+    realm := config.AuthRealm
+    if realm == "" {
+        realm = "gaestatic realm"
+    }
+    w.Header().Set("WWW-Authenticate", fmt.Sprintf(`Basic realm="%s"`, realm))
     w.WriteHeader(401)
 }
-
 
 /**
  * Use Google Cloud Storage

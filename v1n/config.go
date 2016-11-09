@@ -1,12 +1,13 @@
+//
+// @Author Nobuhisa TAKAHSHI
+//
 package gaestatic
 
 import (
     "os"
 )
 
-/**
- * アプリ設定格納用struct
- */
+// struct for Application Setting
 type AppConfig struct {
     DefaultHtml string
     AuthDir string
@@ -20,9 +21,7 @@ type AppConfig struct {
     PubObjectRoot string
 }
 
-/**
- * アプリ設定格納用初期化処理
- */
+// initialize
 func (self *AppConfig) Initialize() {
     self.DefaultHtml = os.Getenv("config_default_html")
     self.AuthRealm = os.Getenv("config_auth_realm")
@@ -36,11 +35,10 @@ func (self *AppConfig) Initialize() {
     self.PubObjectRoot = os.Getenv("config_pub_object_root")
 }
 
+// singleton
 var config *AppConfig
 
-/**
- * アプリ設定シングルトン処理
- */
+// create and get singleton
 func GetAppConfig() *AppConfig {
     if config == nil {
         config = &AppConfig{}

@@ -1,17 +1,16 @@
+//
+// @Author Nobuhisa TAKAHSHI
+//
 package gaestatic
 
 import (
     "net/http"
 )
 
-/**
- * Basic認証情報が一致しているかのチェック
- */
+// Check Basic Auth
 func CheckBasicAuth(r *http.Request) bool {
-    config := GetAppConfig()
-    
+    config := GetAppConfig()    
     rc := false
-    //rc := true
     username, password, ok := (*r).BasicAuth()
     if ok == false {
         return rc
