@@ -6,31 +6,31 @@ Google App Engine (static file with BasicAuth)
 * Google App Engine (golang)
 * Google Cloud Storage
     * **READ** Permission from **GAE** for **bucket** and **object**.
-    * Edit **bucket** permission.
+    * Edit bucket permission.
 
-    ex.)
+        ex.)
     
-        Google Cloud Platform Console
-        -> Storage
-        -> Select Bucket
-        -> Edit **bucket** permissions
-        -> Add item
-        ENTITY=User,
-        NAME=YOUR GAE Service Account (eg. example@appspot.gserviceaccount.com),
-        ACCESS=Read
+            Google Cloud Platform Console
+            -> Storage
+            -> Select Bucket
+            -> Edit **bucket** permissions
+            -> Add item
+            ENTITY=User,
+            NAME=YOUR GAE Service Account (eg. example@appspot.gserviceaccount.com),
+            ACCESS=Read
         
     * Edit **object** permission.
 
-    ex.)
+        ex.)
     
-        Google Cloud Platform Console
-        -> Storage
-        -> Select Bucket
-        -> Edit **object** permissions
-        -> Add item
-        ENTITY=User,
-        NAME=YOUR GAE Service Account (eg. example@appspot.gserviceaccount.com),
-        ACCESS=Read
+            Google Cloud Platform Console
+            -> Storage
+            -> Select Bucket
+            -> Edit object permissions
+            -> Add item
+            ENTITY=User,
+            NAME=YOUR GAE Service Account (eg. example@appspot.gserviceaccount.com),
+            ACCESS=Read
         
     
 ## Example
