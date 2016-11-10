@@ -52,7 +52,7 @@ Google App Engine (static file with BasicAuth)
 
 #### Example - app.go
 
-```golang
+```go
 package app
 
 import (
