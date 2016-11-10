@@ -52,7 +52,7 @@ Google App Engine (static file with BasicAuth)
 
 #### Example - app.go
 
-```
+```golang
 package app
 
 import (
@@ -67,7 +67,7 @@ func init() {
 
 #### Example - app.yaml
 
-```
+```yaml
 application: {YOUR_APPLICATION}
 version: {YOUR_APPLICATION_VERSION}
 runtime: go
