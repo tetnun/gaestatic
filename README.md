@@ -47,8 +47,8 @@ Google App Engine (static file with BasicAuth)
 
 | No. | path | Notes |
 | --: | --- | --- |
-| 1 | [examples/1](https://github.com/tetnun/gaestatic/tree/master/examples/1) | Most simple example. This use static files on GCS. | 
-| 2 | [examples/2](https://github.com/tetnun/gaestatic/tree/master/examples/2) | Most simple example. This use static files on GCS. |  | This use static files on GCS and GAE. |
+| 1 | [examples/1](https://github.com/tetnun/gaestatic/tree/master/examples/1) | Simple example. This use static files on GCS. | 
+| 2 | [examples/2](https://github.com/tetnun/gaestatic/tree/master/examples/2) | Comprecated example. This use static files on GCS and GAE. |
 
 #### Example - app.go
 
