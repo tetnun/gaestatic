@@ -75,44 +75,52 @@ api_version: go1
 threadsafe: no
 
 handlers:
-- url: /apps/.*
+- url: /.*
   script: _go_app
   secure: always
 
 env_variables:
   config_default_html: index.html
-  config_auth_dir: /apps/
+  config_auth_dir: {YOUR_BASIC_AUTH_DIR}
   config_auth_realm: {YOUR_BASIC_AUTH_REALM}
   config_auth_user: {YOUR_BASIC_AUTH_USER_NAME}
   config_auth_pass: {YOUR_BASIC_AUTH_PASSWORD}
   config_auth_bucket: {YOUR_BASIC_AUTH_GCS_BUCKET_NAME}
   config_auth_object_root: {YOUR_BASIC_AUTH_OBJECT_ROOT}
-  config_pub_dir: /
+  config_pub_dir: {YOUR_PUB_DIR}
   config_pub_bucket: {YOUR_PUB_BUCKET_NAME}
   config_pub_object_root: {YOUR_PUB_OBJECT_ROOT}
 ```
 
-| Name | Example Value |
-| --- | --- |
-| YOUR_APPLICATION | example-app |
-| YOUR_APPLICATION_VERSION | 1 |
-| YOUR_BASIC_AUTH_REALM | 'example realm' |
-| YOUR_BASIC_AUTH_USER_NAME | user123 |
-| YOUR_BASIC_AUTH_PASSWORD | pass123 |
-| YOUR_BASIC_AUTH_GCS_BUCKET_NAME | example-gcs-a |
-| YOUR_BASIC_AUTH_OBJECT_ROOT | apps/ |
-| YOUR_PUB_BUCKET_NAME | example-gcs-a |
-| YOUR_PUB_OBJECT_ROOT | pub/ |
+| Name | Example Value | Notes |
+| --- | --- | --- |
+| YOUR_APPLICATION | example-gaestatic | see GAE golang document |
+| YOUR_APPLICATION_VERSION | 1 | see GAE golang document |
+| YOUR_BASIC_AUTH_DIR | /apps/ | URI Path (Basic Auth) |
+| YOUR_BASIC_AUTH_REALM | 'example realm' | Basic Auth Realm |
+| YOUR_BASIC_AUTH_USER_NAME | user123 | Basic Auth Username |
+| YOUR_BASIC_AUTH_PASSWORD | pass123 | Basic Auth Password |
+| YOUR_BASIC_AUTH_GCS_BUCKET_NAME | example-gcs-apps | GCS Bucket (Basic Auth) |
+| YOUR_BASIC_AUTH_OBJECT_ROOT | apps/ | GCS Object Prefix (Basic Auth) |
+| YOUR_PUB_DIR | / | URI Path (non Basic Auth) |
+| YOUR_PUB_BUCKET_NAME | example-gcs-pub | GCS Bucket (non Basic Auth) |
+| YOUR_PUB_OBJECT_ROOT | pub/ | GCS Object Prefix (non Basic Auth) |
 
 ### URL mapping
 
-| No.| URL | Local Location |
-| --: | --- | --- |
-| 1 | https://{YOUR_APPLICATION}.appspot.com/apps/ | gs://{YOUR_BASIC_AUTH_GCS_BUCKET_NAME}/{YOUR_BASIC_AUTH_OBJECT_ROOT} |
-| 2 | https://{YOUR_APPLICATION}.appspot.com/ (\*1.)| gs://{YOUR_PUB_BUCKET_NAME}/{YOUR_PUB_OBJECT_ROOT} |
+| No.| Basic Auth | URL | Local Location |
+| --: | :-: | --- |
+| 1 | Yes | https://{YOUR_APPLICATION}.appspot.com/apps/ | gs://{YOUR_BASIC_AUTH_GCS_BUCKET_NAME}/{YOUR_BASIC_AUTH_OBJECT_ROOT} |
+| 2 | No | https://{YOUR_APPLICATION}.appspot.com/ (\*1.)| gs://{YOUR_PUB_BUCKET_NAME}/{YOUR_PUB_OBJECT_ROOT} |
 
 *1. exclude URL (No.1)
 
+##### ex.
+
+| No. | Basic Auth | URL | Local Location |
+| --: | :-: | --- | --- |
+| 1 | Yes | https://example-gaestatic.appspot.com/apps/ | gs://example-gcs-apps/apps/ |
+| 2 | No | https://example-gaestatic.appspot.com/pub/ | gs://example-gcs-apps/pub/ 
 
 
 
