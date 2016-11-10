@@ -109,7 +109,7 @@ env_variables:
 ### URL mapping
 
 | No.| Basic Auth | URL | Local Location |
-| --: | :-: | --- |
+| --: | :-: | --- | --- |
 | 1 | Yes | https://{YOUR_APPLICATION}.appspot.com/apps/ | gs://{YOUR_BASIC_AUTH_GCS_BUCKET_NAME}/{YOUR_BASIC_AUTH_OBJECT_ROOT} |
 | 2 | No | https://{YOUR_APPLICATION}.appspot.com/ (\*1.)| gs://{YOUR_PUB_BUCKET_NAME}/{YOUR_PUB_OBJECT_ROOT} |
 
