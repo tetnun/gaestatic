@@ -13,7 +13,7 @@ Google App Engine (static file with BasicAuth)
             Google Cloud Platform Console
             -> Storage
             -> Select Bucket
-            -> Edit **bucket** permissions
+            -> Edit bucket permissions
             -> Add item
             ENTITY=User,
             NAME=YOUR GAE Service Account (eg. example@appspot.gserviceaccount.com),
@@ -47,8 +47,8 @@ Google App Engine (static file with BasicAuth)
 
 | No. | path | Notes |
 | --: | --- | --- |
-| 1 | example/1 | Most simple example. This use static files on GCS. | 
-| 2 | example/2 | This use static files on GCS and GAE. |
+| 1 | [examples/1](https://github.com/tetnun/gaestatic/tree/master/examples/1) | Most simple example. This use static files on GCS. | 
+| 2 | [examples/2](https://github.com/tetnun/gaestatic/tree/master/examples/2) | Most simple example. This use static files on GCS. |  | This use static files on GCS and GAE. |
 
 #### Example - app.go
 
