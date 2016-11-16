@@ -35,6 +35,16 @@ func GetContentType(s string) string {
         case ".apk":
             contentType = "application/vnd.android.package-archive"
             break
+        case ".png":
+            contentType = "image/png"
+            break
+        case ".gif":
+            contentType = "image/gif"
+            break
+        case ".gif":
+        case ".jpeg":
+            contentType = "image/jpeg"
+            break
     }
     return contentType
 }
