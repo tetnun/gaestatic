@@ -41,7 +41,7 @@ func GetContentType(s string) string {
         case ".gif":
             contentType = "image/gif"
             break
-        case ".gif":
+        case ".jpg":
         case ".jpeg":
             contentType = "image/jpeg"
             break
