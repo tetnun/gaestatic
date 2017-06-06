@@ -114,7 +114,7 @@ func gcs(w http.ResponseWriter, r *http.Request, isAuth bool) bool {
     if err2 != nil {
         // Not Found : GCS 読み込みエラー
         w.WriteHeader(404)
-        w.Write([]byte("Object Not Found"))
+        w.Write([]byte(fmt.Sprintf("Object Not Found. ObjectName=%s", objectName)))
         return isDone
     }
     defer reader.Close()
