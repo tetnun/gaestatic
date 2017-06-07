@@ -6,7 +6,6 @@ import (
 	"io"
 	"net/http"
 	"strings"
-	"google.golang.org/appengine"
 	"os"
 )
 
