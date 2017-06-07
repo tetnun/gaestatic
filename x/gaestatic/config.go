@@ -18,6 +18,39 @@ const STORAGE_TYPE_GD StorageType = "gd"
 // Storage Type Google Drive
 const STORAGE_TYPE_DEFAULT StorageType = STORAGE_TYPE_FILE
 
+
+// Config for Local File
+type FileAppConfig struct {
+    // "config_auth_file_path" - File Path for Auth
+    AuthPath string
+    // "config_pub_file_path" - File Path for Public
+    PubPath string
+}
+
+// Config for Google Cloud Storage
+type GcsAppConfig struct {
+    // "config_auth_gcs_bucket" - GCS Bucket for Auth
+    AuthBucket string
+    // "config_auth_gcs_object_root" - GCS Object Root Path for Auth
+    AuthObjectRoot string
+    // "config_pub_gcs_bucket" - GCS Bucket for Public
+    PubBucket string
+    // "config_pub_gcs_object_root" - GCS Object Root Path for Public
+    PubObjectRoot string
+}
+
+// Config for Google Drive
+type DriveAppConfig struct {
+    // "config_client_id" - Client ID
+    ClientID string
+    // "config_secret" - Client Secret
+    ClientSecret string
+    // "config_auth_drive_path" - Drive Path for Auth
+    AuthPath string
+    // "config_pub_drive_path" - Drive Path for Public
+    PubPath string
+}
+
 // struct for Application Setting
 type AppConfig struct {
     DefaultHtml string
@@ -29,21 +62,13 @@ type AppConfig struct {
     StorageType StorageType
 
     // Config for Local File
-    // - File Path for Auth ("config_auth_file_path")
-    AuthFilePath string
-    // - File Path for Public ("config_pub_file_path")
-    PubFilePath string
+    FileConfig FileAppConfig
 
     // Config for Google Cloud Storage
-    // - GCS Bucket for Auth ("config_auth_gcs_bucket")
-    AuthGcsBucket string
-    // - GCS Object Root Path for Auth ("config_auth_gcs_object_root")
-    AuthGcsObjectRoot string
-    // - GCS Bucket for Public ("config_pub_gcs_bucket")
-    PubGcsBucket string
-    // - GCS Object Root Path for Public ("config_pub_gcs_object_root")
-    PubGcsObjectRoot string
+    GcsConfig GcsAppConfig
 
+    // Config for Google Drive
+    DriveConfig DriveAppConfig
 }
 
 // initialize
@@ -57,19 +82,27 @@ func (self *AppConfig) Initialize() {
     self.StorageType = StorageType(os.Getenv("config_storage_type"))
     switch self.StorageType {
     case STORAGE_TYPE_GCS:
-        self.AuthGcsBucket = os.Getenv("config_auth_gcs_bucket")
-        self.AuthGcsObjectRoot = os.Getenv("config_auth_gcs_object_root")
-        self.PubGcsBucket = os.Getenv("config_pub_gcs_bucket")
-        self.PubGcsObjectRoot = os.Getenv("config_pub_gcs_object_root")
-
+        gcsConfig := GcsAppConfig{}
+        gcsConfig.AuthBucket = os.Getenv("config_auth_gcs_bucket")
+        gcsConfig.AuthObjectRoot = os.Getenv("config_auth_gcs_object_root")
+        gcsConfig.PubBucket = os.Getenv("config_pub_gcs_bucket")
+        gcsConfig.PubObjectRoot = os.Getenv("config_pub_gcs_object_root")
+        self.GcsConfig = gcsConfig
     case STORAGE_TYPE_GD:
-
+        driveConfig := DriveAppConfig{}
+        driveConfig.ClientID = os.Getenv("config_client_id")
+        driveConfig.ClientSecret = os.Getenv("config_client_secret")
+        driveConfig.AuthPath = os.Getenv("config_auth_drive_path")
+        driveConfig.PubPath = os.Getenv("config_pub_drive_path")
+        self.DriveConfig = driveConfig
     case STORAGE_TYPE_FILE:
         fallthrough
     default:
         self.StorageType = STORAGE_TYPE_DEFAULT
-        self.AuthFilePath = os.Getenv("config_auth_file_path")
-        self.PubFilePath = os.Getenv("config_pub_file_path")
+        fileConfig := FileAppConfig{}
+        fileConfig.AuthPath = os.Getenv("config_auth_file_path")
+        fileConfig.PubPath = os.Getenv("config_pub_file_path")
+        self.FileConfig = fileConfig
     }
 }
 

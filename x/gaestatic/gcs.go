@@ -18,6 +18,8 @@ func gcsHandler(w http.ResponseWriter, r *http.Request, isAuth bool) bool {
 	var bucketName string
 	var objectName string
 
+	gcsConfig := config.GcsConfig
+
 	isDone := true
 
 	config := GetAppConfig()
@@ -35,11 +37,11 @@ func gcsHandler(w http.ResponseWriter, r *http.Request, isAuth bool) bool {
 			outputUnauth(w)
 			return isDone
 		}
-		bucketName = config.AuthGcsBucket
-		objectName = strings.Replace(r.URL.Path, config.AuthDir, config.AuthGcsObjectRoot, -1)
+		bucketName = gcsConfig.AuthBucket
+		objectName = strings.Replace(r.URL.Path, config.AuthDir, gcsConfig.AuthObjectRoot, -1)
 	} else {
-		bucketName = config.PubGcsBucket
-		objectName = strings.Replace(r.URL.Path, config.PubDir, config.PubGcsObjectRoot, -1)
+		bucketName = gcsConfig.PubBucket
+		objectName = strings.Replace(r.URL.Path, config.PubDir, gcsConfig.PubObjectRoot, -1)
 	}
 
 	// ローカルは動作しないので未実装扱い

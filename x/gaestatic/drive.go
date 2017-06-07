@@ -7,15 +7,30 @@ import (
 	"net/http"
 	"strings"
 	"os"
+	"io/ioutil"
+	"log"
 )
 
+
+func valueOrFileContents(value string, filename string) string {
+	if value != "" {
+		return value
+	}
+	slurp, err := ioutil.ReadFile(filename)
+	if err != nil {
+		log.Fatalf("Error reading %q: %v", filename, err)
+	}
+	return strings.TrimSpace(string(slurp))
+}
+
 /**
- * Use Local File Storage
+ * Use Google Drive Storage
+ * https://github.com/google/google-api-go-client/blob/master/examples/
  */
-func fileHandler(w http.ResponseWriter, r *http.Request, isAuth bool) bool {
+func driveHandler(w http.ResponseWriter, r *http.Request, isAuth bool) bool {
 	var filePath string
 
-	fileConfig := config.FileConfig
+	driveConfig := config.DriveConfig
 
 	isDone := true
 
@@ -34,9 +49,9 @@ func fileHandler(w http.ResponseWriter, r *http.Request, isAuth bool) bool {
 			outputUnauth(w)
 			return isDone
 		}
-		filePath = strings.Replace(r.URL.Path, config.AuthDir, fileConfig.AuthPath, -1)
+		filePath = strings.Replace(r.URL.Path, config.AuthDir, driveConfig.AuthPath, -1)
 	} else {
-		filePath = strings.Replace(r.URL.Path, config.PubDir, fileConfig.PubPath, -1)
+		filePath = strings.Replace(r.URL.Path, config.PubDir, driveConfig.PubPath, -1)
 	}
 
 	file, err := os.Open(filePath)

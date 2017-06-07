@@ -14,6 +14,8 @@ func authHandler(w http.ResponseWriter, r *http.Request) {
     switch config.StorageType {
     case STORAGE_TYPE_GCS:
         gcsHandler(w, r, isAuth)
+    case STORAGE_TYPE_GD:
+        driveHandler(w, r, isAuth)
     default:
         fileHandler(w, r, isAuth)
     }
@@ -25,6 +27,8 @@ func pubHandler(w http.ResponseWriter, r *http.Request) {
     switch config.StorageType {
     case STORAGE_TYPE_GCS:
         gcsHandler(w, r, isAuth)
+    case STORAGE_TYPE_GD:
+        driveHandler(w, r, isAuth)
     default:
         fileHandler(w, r, isAuth)
     }
