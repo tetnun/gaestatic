@@ -38,13 +38,6 @@ func fileHandler(w http.ResponseWriter, r *http.Request, isAuth bool) bool {
 		filePath = strings.Replace(r.URL.Path, config.PubDir, config.PubFilePath, -1)
 	}
 
-	// ローカルは動作しないので未実装扱い
-	if appengine.IsDevAppServer() {
-		// Not Implemented
-		w.WriteHeader(501)
-		return isDone
-	}
-
 	file, err := os.Open(filePath)
 	if err != nil {
 		// Not Found
