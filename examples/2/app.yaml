@@ -45,8 +45,8 @@ env_variables:
   config_auth_realm: {YOUR_BASIC_AUTH_REALM}
   config_auth_user: {YOUR_BASIC_AUTH_USER_NAME}
   config_auth_pass: {YOUR_BASIC_AUTH_PASSWORD}
-  config_auth_bucket: {YOUR_BASIC_AUTH_GCS_BUCKET_NAME}
-  config_auth_object_root: {YOUR_BASIC_AUTH_OBJECT_ROOT}
   config_pub_dir: /
-  config_pub_bucket: {YOUR_PUB_BUCKET_NAME}
-  config_pub_object_root: {YOUR_PUB_OBJECT_ROOT}
+  config_auth_gcs_bucket: {YOUR_BASIC_AUTH_GCS_BUCKET_NAME}
+  config_auth_gcs_object_root: {YOUR_BASIC_AUTH_OBJECT_ROOT}
+  config_pub_gcs_bucket: {YOUR_PUB_BUCKET_NAME}
+  config_pub_gcs_object_root: {YOUR_PUB_OBJECT_ROOT}

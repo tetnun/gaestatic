@@ -28,23 +28,18 @@ func GetContentType(s string) string {
     switch ext {
         case ".plist":
             contentType = "application/x-plist"
-            break
         case ".ipa":
             contentType = "application/octet-stream"
-            break
         case ".apk":
             contentType = "application/vnd.android.package-archive"
-            break
         case ".png":
             contentType = "image/png"
-            break
         case ".gif":
             contentType = "image/gif"
-            break
         case ".jpg":
+            fallthrough
         case ".jpeg":
             contentType = "image/jpeg"
-            break
     }
     return contentType
 }

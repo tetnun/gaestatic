@@ -85,11 +85,14 @@ env_variables:
   config_auth_realm: {YOUR_BASIC_AUTH_REALM}
   config_auth_user: {YOUR_BASIC_AUTH_USER_NAME}
   config_auth_pass: {YOUR_BASIC_AUTH_PASSWORD}
-  config_auth_bucket: {YOUR_BASIC_AUTH_GCS_BUCKET_NAME}
-  config_auth_object_root: {YOUR_BASIC_AUTH_OBJECT_ROOT}
   config_pub_dir: {YOUR_PUB_DIR}
-  config_pub_bucket: {YOUR_PUB_BUCKET_NAME}
-  config_pub_object_root: {YOUR_PUB_OBJECT_ROOT}
+  config_storage_type: {STORAGE_TYPE}
+  config_auth_file_path: {YOUR_BASIC_AUTH_FILE_PATH}
+  config_pub_file_path: {YOUR_PUB_FILE_PATH}
+  config_auth_gcs_bucket: {YOUR_BASIC_AUTH_GCS_BUCKET_NAME}
+  config_auth_gcs_object_root: {YOUR_BASIC_AUTH_GCS_OBJECT_ROOT}
+  config_pub_gcs_bucket: {YOUR_PUB_GCS_BUCKET_NAME}
+  config_pub_gcs_object_root: {YOUR_PUB_GCS_OBJECT_ROOT}
 ```
 
 | Name | Example Value | Notes |
@@ -100,18 +103,21 @@ env_variables:
 | YOUR_BASIC_AUTH_REALM | 'example realm' | Basic Auth Realm |
 | YOUR_BASIC_AUTH_USER_NAME | user123 | Basic Auth Username |
 | YOUR_BASIC_AUTH_PASSWORD | pass123 | Basic Auth Password |
-| YOUR_BASIC_AUTH_GCS_BUCKET_NAME | example-gcs-apps | GCS Bucket (Basic Auth) |
-| YOUR_BASIC_AUTH_OBJECT_ROOT | apps/ | GCS Object Prefix (Basic Auth) |
 | YOUR_PUB_DIR | / | URI Path (non Basic Auth) |
-| YOUR_PUB_BUCKET_NAME | example-gcs-pub | GCS Bucket (non Basic Auth) |
-| YOUR_PUB_OBJECT_ROOT | pub/ | GCS Object Prefix (non Basic Auth) |
+| config_storage_type | 'file', 'gcs', 'gd' | 'file' : Local File, 'gcs' : GCS, 'gd' : Google Drive (Reserved)|
+| YOUR_BASIC_AUTH_FILE_PATH | apps/ | File Path Prefix (Basic Auth) |
+| YOUR_PUB_FILE_PATH | apps/ | File Path Prefix (non Basic Auth) |
+| YOUR_BASIC_AUTH_GCS_BUCKET_NAME | example-gcs-apps | GCS Bucket (Basic Auth) |
+| YOUR_BASIC_AUTH_GCS_OBJECT_ROOT | apps/ | GCS Object Prefix (Basic Auth) |
+| YOUR_PUB_GCS_BUCKET_NAME | example-gcs-pub | GCS Bucket (non Basic Auth) |
+| YOUR_PUB_GCS_OBJECT_ROOT | pub/ | GCS Object Prefix (non Basic Auth) |
 
 ### URL mapping
 
 | No.| Basic Auth | URL | Local Location |
 | --: | :-: | --- | --- |
-| 1 | Yes | https://{YOUR_APPLICATION}.appspot.com/apps/ | gs://{YOUR_BASIC_AUTH_GCS_BUCKET_NAME}/{YOUR_BASIC_AUTH_OBJECT_ROOT} |
-| 2 | No | https://{YOUR_APPLICATION}.appspot.com/ (\*1.)| gs://{YOUR_PUB_BUCKET_NAME}/{YOUR_PUB_OBJECT_ROOT} |
+| 1 | Yes | https://{YOUR_APPLICATION}.appspot.com/apps/ | gs://{YOUR_BASIC_AUTH_GCS_BUCKET_NAME}/{YOUR_BASIC_AUTH_GCS_OBJECT_ROOT} |
+| 2 | No | https://{YOUR_APPLICATION}.appspot.com/ (\*1.)| gs://{YOUR_PUB_GCS_BUCKET_NAME}/{YOUR_PUB_GCS_OBJECT_ROOT} |
 
 *1. exclude URL (No.1)
 
