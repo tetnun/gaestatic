@@ -128,7 +128,7 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 	}
 	contentLength = contentLength + "bytes"
 
-	contentType := GetContentType("_.plist")
+	contentType := GetContentType(filePath + "_.plist")
 	if contentType != "" {
 		w.Header().Set("Content-Type", contentType)
 	}
