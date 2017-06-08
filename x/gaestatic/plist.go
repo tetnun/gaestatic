@@ -2,12 +2,9 @@ package gaestatic
 
 import (
 	"strings"
-	"os"
 	"fmt"
 	"strconv"
-	"io"
 	"net/http"
-	"google.golang.org/appengine/file"
 	"html/template"
 	"bytes"
 )
