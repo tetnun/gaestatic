@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"text/template"
 	"bytes"
+	"google.golang.org/appengine/log"
 )
 
 const PLIST_TEMPLATE string = `<?xml version="1.0" encoding="UTF-8"?>
@@ -96,7 +97,7 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 		return isDone
 	}
 
-	filePath := strings.Replace(r.URL.Path, config.PubDir, config.PlistDir, 1)
+	filePath := strings.Replace(r.URL.Path, config.PlistDir, "", 1)
 	tmp := strings.SplitN(filePath, "/", 2)
 	if len(tmp) < 2 {
 		// Bad Request
