@@ -9,6 +9,8 @@ import (
 
 type StorageType string
 
+type DynamicType string
+
 // Storage Type Local File
 const STORAGE_TYPE_FILE StorageType = "file"
 // Storage Type Google Cloud Storage
@@ -17,6 +19,8 @@ const STORAGE_TYPE_GCS StorageType = "gcs"
 const STORAGE_TYPE_GD StorageType = "gd"
 // Storage Type Google Drive
 const STORAGE_TYPE_DEFAULT StorageType = STORAGE_TYPE_FILE
+
+const DYNAMIC_TYPE_PLIST DynamicType = "plist"
 
 
 // Config for Local File
@@ -59,6 +63,7 @@ type AppConfig struct {
     AuthUser string
     AuthPass string
     PubDir string
+    PlistDir string
     StorageType StorageType
 
     // Config for Local File
@@ -79,6 +84,7 @@ func (self *AppConfig) Initialize() {
     self.AuthPass = os.Getenv("config_auth_pass")
     self.AuthDir = os.Getenv("config_auth_dir")
     self.PubDir = os.Getenv("config_pub_dir")
+    self.PlistDir = os.Getenv("config_plist_dir")
     self.StorageType = StorageType(os.Getenv("config_storage_type"))
     switch self.StorageType {
     case STORAGE_TYPE_GCS:

@@ -34,6 +34,11 @@ func pubHandler(w http.ResponseWriter, r *http.Request) {
     }
 }
 
+
+func dynamicPlistHandler(w http.ResponseWriter, r *http.Request) {
+    plistHandler(w, r)
+}
+
 // All Error Handler
 func allErrorHandler(w http.ResponseWriter, r *http.Request) {
     // Internal Server Errror
@@ -53,16 +58,19 @@ func outputUnauth(w http.ResponseWriter) {
 
 
 func Init() {
-    var authDir string
     config := GetAppConfig()
     
     if config == nil {
         http.HandleFunc("/", allErrorHandler)
         return        
     }
-    authDir = config.AuthDir
+    authDir := config.AuthDir
     if config.AuthDir != "" {
         http.HandleFunc(authDir, authHandler)        
+    }
+    plistDir := config.PlistDir
+    if plistDir != "" {
+        http.HandleFunc(plistDir, dynamicPlistHandler)
     }
     http.HandleFunc("/", pubHandler)
 }
