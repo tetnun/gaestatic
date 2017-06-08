@@ -100,10 +100,30 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 	}
 
 	filePath = strings.Replace(r.URL.Path, config.PubDir, fileConfig.PubPath, -1)
+	tmp := strings.SplitN(filePath, "/", 2)
+	if len(tmp) < 2 {
+		// Bad Request
+		w.WriteHeader(400)
+		w.Write([]byte("invalid path #1"))
+		return isDone
+	}
+	bundleIdentifer := tmp[0]
+	if strings.Contains(tmp[1], "..") {
+		// Bad Request
+		w.WriteHeader(400)
+		w.Write([]byte("invalid path #2"))
+		return isDone
+	}
+
+	ipaUrl := r.URL
+	ipaUrl.Path = "/" + tmp[1]
 
 	params := PlistTemplateParams{}
-
-	params.BundleIdentifer = "com.example.sample"
+	// http://example.com/{filePath}/{bundleId}/{IpaPath}?title={title}&version={bundleVersion}
+	params.Title = r.URL.Query().Get("title")
+	params.BundleVersion = r.URL.Query().Get("version")
+	params.BundleIdentifer = bundleIdentifer
+	params.IpaUrl = ipaUrl.RequestURI()
 
 	tmpl, err := template.New("plist").Parse(PLIST_TEMPLATE)
 
@@ -128,7 +148,7 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 	}
 	contentLength = contentLength + "bytes"
 
-	contentType := GetContentType(filePath + "_.plist")
+	contentType := GetContentType("_.plist")
 	if contentType != "" {
 		w.Header().Set("Content-Type", contentType)
 	}
