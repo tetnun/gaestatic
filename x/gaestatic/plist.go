@@ -120,7 +120,7 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 	params.Title = r.URL.Query().Get("title")
 	params.BundleVersion = r.URL.Query().Get("version")
 	params.BundleIdentifer = bundleIdentifer
-	params.IpaUrl = ipaUrl.RequestURI()
+	params.IpaUrl = ipaUrl.String()
 
 	tmpl, err := template.New("plist").Parse(PLIST_TEMPLATE)
 
