@@ -15,6 +15,8 @@ type DynamicType string
 const STORAGE_TYPE_FILE StorageType = "file"
 // Storage Type Google Cloud Storage
 const STORAGE_TYPE_GCS StorageType = "gcs"
+// Storage Type Google Cloud Storage - Blobstore
+const STORAGE_TYPE_BLOB = "blob"
 // Storage Type Google Drive
 const STORAGE_TYPE_GD StorageType = "gd"
 // Storage Type Google Drive
@@ -94,6 +96,8 @@ func (self *AppConfig) Initialize() {
         gcsConfig.PubBucket = os.Getenv("config_pub_gcs_bucket")
         gcsConfig.PubObjectRoot = os.Getenv("config_pub_gcs_object_root")
         self.GcsConfig = gcsConfig
+    case STORAGE_TYPE_BLOB:
+        fallthrough
     case STORAGE_TYPE_GD:
         driveConfig := DriveAppConfig{}
         driveConfig.ClientID = os.Getenv("config_client_id")

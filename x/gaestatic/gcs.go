@@ -8,7 +8,56 @@ import (
 	"strings"
 	"cloud.google.com/go/storage"
 	"google.golang.org/appengine"
+	"google.golang.org/appengine/blobstore"
 )
+func blobHandler(w http.ResponseWriter, r *http.Request, isAuth bool) bool {
+	var bucketName string
+	var objectName string
+
+	gcsConfig := config.GcsConfig
+
+	isDone := true
+
+	config := GetAppConfig()
+	if config == nil {
+		// Internal Server Errror
+		w.WriteHeader(500)
+		w.Write([]byte("No Config"))
+		return isDone
+	}
+
+	if isAuth == true {
+		// Basic認証
+		if CheckBasicAuth(r) == false {
+			// 認証処理
+			outputUnauth(w)
+			return isDone
+		}
+		bucketName = gcsConfig.AuthBucket
+		objectName = strings.Replace(r.URL.Path, config.AuthDir, gcsConfig.AuthObjectRoot, -1)
+	} else {
+		bucketName = gcsConfig.PubBucket
+		objectName = strings.Replace(r.URL.Path, config.PubDir, gcsConfig.PubObjectRoot, -1)
+	}
+
+	// ローカルは動作しないので未実装扱い
+	if appengine.IsDevAppServer() {
+		// Not Implemented
+		w.WriteHeader(501)
+		return isDone
+	}
+
+	ctx := appengine.NewContext(r)
+
+	blobKey, _ := blobstore.BlobKeyForFile(ctx, fmt.Sprintf("/gs/%v/%v", bucketName, objectName))
+
+	contentType := GetContentType(objectName)
+	if contentType != "" {
+		w.Header().Set("Content-Type", contentType)
+	}
+	blobstore.Send(w, blobKey)
+	return isDone
+}
 
 /**
  * Use Google Cloud Storage
