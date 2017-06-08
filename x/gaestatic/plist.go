@@ -86,7 +86,7 @@ type PlistTemplateParams struct {
  * Dynamic Plist Handler
  */
 func plistHandler(w http.ResponseWriter, r *http.Request) bool {
-
+	const DYNAMIC_PLIST_POSTFIX = "x.plist"
 	isDone := true
 
 	config := GetAppConfig()
@@ -98,19 +98,24 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 	}
 
 	filePath := strings.Replace(r.URL.Path, config.PlistDir, "", 1)
-	tmp := strings.SplitN(filePath, "/", 3)
-	if len(tmp) < 3 {
+	tmp := strings.SplitN(filePath, "/", 2)
+	if len(tmp) < 2 {
 		// Bad Request
 		w.WriteHeader(400)
 		w.Write([]byte("invalid path #1"))
 		return isDone
 	}
-	if tmp[2] != "x.plist" {
+	filePath = tmp[1]
+	postfix := filePath[strings.LastIndex(filePath, DYNAMIC_PLIST_POSTFIX):]
+	if postfix != DYNAMIC_PLIST_POSTFIX {
 		// Bad Request
 		w.WriteHeader(400)
 		w.Write([]byte("invalid path #2"))
 		return isDone
 	}
+
+	filePath = filePath[0:len(filePath)-len(DYNAMIC_PLIST_POSTFIX)]
+	tmp = strings.SplitN(filePath, "/", 2)
 	bundleIdentifer := tmp[0]
 	if strings.Contains(tmp[1], "..") {
 		// Bad Request
