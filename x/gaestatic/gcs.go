@@ -27,9 +27,9 @@ func blobHandler(w http.ResponseWriter, r *http.Request, isAuth bool) bool {
 	}
 
 	if isAuth == true {
-		// Basic認証
+		// Basic Auth.
 		if CheckBasicAuth(r) == false {
-			// 認証処理
+			// Authentication
 			outputUnauth(w)
 			return isDone
 		}
@@ -40,7 +40,7 @@ func blobHandler(w http.ResponseWriter, r *http.Request, isAuth bool) bool {
 		objectName = strings.Replace(r.URL.Path, config.PubDir, gcsConfig.PubObjectRoot, -1)
 	}
 
-	// ローカルは動作しないので未実装扱い
+	// Not supported for Local Env.
 	if appengine.IsDevAppServer() {
 		// Not Implemented
 		w.WriteHeader(501)
@@ -80,9 +80,9 @@ func gcsHandler(w http.ResponseWriter, r *http.Request, isAuth bool) bool {
 	}
 
 	if isAuth == true {
-		// Basic認証
+		// Basic Auth.
 		if CheckBasicAuth(r) == false {
-			// 認証処理
+			// Authentication
 			outputUnauth(w)
 			return isDone
 		}
@@ -122,7 +122,7 @@ func gcsHandler(w http.ResponseWriter, r *http.Request, isAuth bool) bool {
 
 	var contentLength string
 	if attrs, err := obj.Attrs(ctx); err != nil {
-		// Forbidden : GCS サイズ取得失敗
+		// Forbidden : Unknown Size.
 		w.WriteHeader(404)
 		w.Write([]byte(fmt.Sprintf("ACL: ObjectName=%s", objectName)))
 		return isDone

@@ -43,9 +43,9 @@ func driveHandler(w http.ResponseWriter, r *http.Request, isAuth bool) bool {
 	}
 
 	if isAuth == true {
-		// Basic認証
+		// Basic Auth.
 		if CheckBasicAuth(r) == false {
-			// 認証処理
+			// Authentication
 			outputUnauth(w)
 			return isDone
 		}
@@ -65,7 +65,7 @@ func driveHandler(w http.ResponseWriter, r *http.Request, isAuth bool) bool {
 
 	var contentLength string
 	if stat, err := file.Stat(); err != nil {
-		// Forbidden : サイズ取得失敗
+		// Forbidden : Unknown Size.
 		w.WriteHeader(403)
 		w.Write([]byte(fmt.Sprintf("File Not Found: FilePath=%s", filePath)))
 		return isDone
