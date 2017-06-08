@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"text/template"
 	"bytes"
-	"google.golang.org/appengine/log"
 )
 
 const PLIST_TEMPLATE string = `<?xml version="1.0" encoding="UTF-8"?>
