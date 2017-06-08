@@ -49,7 +49,15 @@ func blobHandler(w http.ResponseWriter, r *http.Request, isAuth bool) bool {
 
 	ctx := appengine.NewContext(r)
 
-	blobKey, _ := blobstore.BlobKeyForFile(ctx, fmt.Sprintf("/gs/%v/%v", bucketName, objectName))
+	blobPath := fmt.Sprintf("/gs/%s/%s", bucketName, objectName)
+	blobKey, err := blobstore.BlobKeyForFile(ctx, blobPath)
+
+	if err != nil {
+		// Not Implemented
+		w.WriteHeader(501)
+		w.Write([]byte(fmt.Sprintf("BlobPath=%s, BlobKey not found.", blobPath)))
+		return isDone
+	}
 
 	contentType := GetContentType(objectName)
 	if contentType != "" {
