@@ -87,8 +87,6 @@ type PlistTemplateParams struct {
 func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 	var filePath string
 
-	fileConfig := config.FileConfig
-
 	isDone := true
 
 	config := GetAppConfig()
@@ -99,7 +97,7 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 		return isDone
 	}
 
-	filePath = strings.Replace(r.URL.Path, config.PubDir, fileConfig.PubPath, -1)
+	filePath = strings.Replace(r.URL.Path, config.PubDir, config.PlistDir, -1)
 	tmp := strings.SplitN(filePath, "/", 2)
 	if len(tmp) < 2 {
 		// Bad Request
