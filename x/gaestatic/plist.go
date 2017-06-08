@@ -158,7 +158,7 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 	// Title (Optional)
 	title := query.Get("title")
 
-	ipaUrl, _ := url.Parse(r.RequestURI)
+	ipaUrl, _ := url.Parse(r.URL.String())
 	if !r.URL.IsAbs() {
 		ipaUrl.Scheme = "http"
 		ipaUrl.Host = r.Host
@@ -166,7 +166,7 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 	ipaUrl.RawQuery = ""
 	ipaUrl.Path = "/" + ipaPath
 
-	imageUrl, _ := url.Parse(r.RequestURI)
+	imageUrl, _ := url.Parse(r.URL.String())
 	if !r.URL.IsAbs() {
 		imageUrl.Scheme = "http"
 		imageUrl.Host = r.Host
