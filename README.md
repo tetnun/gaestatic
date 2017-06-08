@@ -138,7 +138,7 @@ env_variables:
 | Item        | Notes                                 | Example                                  |
 | ----------- | ------------------------------------- | ---------------------------------------- |
 | GAE_APP_URL | GAE App URL                           | https://example.appspot.com              |
-| PLIST_DIR   | config_plist_dir in app.yaml          | \/__plist__\/                            |
+| PLIST_DIR   | config_plist_dir in app.yaml          | \/\_\_plist\_\_\/                        |
 | BUNDLE_ID   | 'bundle-identifier' in plist          | com.example.sample                       |
 | VERSION     | 'bundle-version' in plist             | 1.0                                      |
 | IPA_PATH    | Path part of 'url' in plist           | apps/ios/sample.ipa on GAE_APP_URL (*1.) |
