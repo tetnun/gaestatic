@@ -113,9 +113,11 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 		return isDone
 	}
 
-	ipaUrl, _ := url.Parse(r.RequestURI)
-	ipaUrl.Host = r.Host
-	ipaUrl.Scheme = r.Proto
+	ipaUrl, _ := url.Parse(r.URL.String())
+	if !r.URL.IsAbs() {
+		ipaUrl.Scheme = "https"
+		ipaUrl.Host = r.Host
+	}
 	ipaUrl.Path = "/" + tmp[1]
 
 	params := PlistTemplateParams{}
