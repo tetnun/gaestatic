@@ -60,8 +60,6 @@ const PLIST_TEMPLATE string = `<?xml version="1.0" encoding="UTF-8"?>
 					<key>title</key>
 					{{if .Title}}
 					<string>{{.Title}}</string>
-					{{else}
-					<string>sample</string>
 					{{end}}
 				</dict>
 			</dict>
