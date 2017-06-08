@@ -86,7 +86,7 @@ type PlistTemplateParams struct {
  * Dynamic Plist Handler
  */
 func plistHandler(w http.ResponseWriter, r *http.Request) bool {
-	const DYNAMIC_PLIST_POSTFIX = "x.plist"
+	const DYNAMIC_PLIST_POSTFIX = "/x.plist"
 	isDone := true
 
 	config := GetAppConfig()
@@ -126,7 +126,7 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 
 	ipaUrl, _ := url.Parse(r.RequestURI)
 	if !r.URL.IsAbs() {
-		ipaUrl.Scheme = "https"
+		ipaUrl.Scheme = "http"
 		ipaUrl.Host = r.Host
 	}
 	ipaUrl.RawQuery = ""
