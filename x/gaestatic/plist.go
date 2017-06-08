@@ -8,6 +8,7 @@ import (
 	"text/template"
 	"bytes"
 	"net/url"
+	"regexp"
 )
 
 const PLIST_TEMPLATE string = `<?xml version="1.0" encoding="UTF-8"?>
@@ -55,10 +56,12 @@ const PLIST_TEMPLATE string = `<?xml version="1.0" encoding="UTF-8"?>
 					<string>{{.BundleVersion}}</string>
 					<key>kind</key>
 					{{end}}
-					{{if .Title}}
 					<string>software</string>
 					<key>title</key>
+					{{if .Title}}
 					<string>{{.Title}}</string>
+					{{else}
+					<string>sample</string>
 					{{end}}
 				</dict>
 			</dict>
@@ -84,6 +87,9 @@ type PlistTemplateParams struct {
 
 /**
  * Dynamic Plist Handler
+ * http://example.com/{filePath}/{bundleId}/{bundleVersion}/{IpaPath}/{imagePath}/x.plist
+ *   ?title={title}&full-image={fullSizeImagePath}
+ * IpaPath : extension must be '.ipa'
  */
 func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 	const DYNAMIC_PLIST_POSTFIX = "/x.plist"
@@ -97,32 +103,62 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 		return isDone
 	}
 
+	query := r.URL.Query()
+
 	filePath := strings.Replace(r.URL.Path, config.PlistDir, "", 1)
-	tmp := strings.SplitN(filePath, "/", 2)
-	// Bundle Identifer
-	bundleIdentifer := tmp[0]
-	if len(tmp) < 2 {
+	tmp := strings.SplitN(filePath, "/", 3)
+	if len(tmp) < 3 {
 		// Bad Request
 		w.WriteHeader(400)
 		w.Write([]byte("invalid path #1"))
 		return isDone
 	}
-	filePath = tmp[1]
-	postfix := filePath[strings.LastIndex(filePath, DYNAMIC_PLIST_POSTFIX):]
-	if postfix != DYNAMIC_PLIST_POSTFIX {
+	// Bundle Identifer (Required)
+	bundleIdentifer := tmp[0]
+	// Bundle Version (Required)
+	bundleVersion := tmp[1]
+	// Parse
+	filePath = tmp[2]
+
+	//
+	rex := regexp.MustCompile(`^(.+\.ipa)/(.+)/x.plist$`)
+	if !rex.MatchString(filePath) {
 		// Bad Request
 		w.WriteHeader(400)
 		w.Write([]byte("invalid path #2"))
 		return isDone
 	}
+	tmp = rex.FindStringSubmatch(filePath)
+	ipaPath := tmp[0]
+	imagePath := tmp[1]
 
-	filePath = filePath[0:len(filePath)-len(DYNAMIC_PLIST_POSTFIX)]
-	if strings.Contains(filePath, "..") {
+
+	if len(bundleIdentifer) == 0 {
 		// Bad Request
 		w.WriteHeader(400)
-		w.Write([]byte("invalid path #3"))
+		w.Write([]byte("bundle-identifier is required"))
 		return isDone
 	}
+
+	if len(bundleVersion) == 0 {
+		// Bad Request
+		w.WriteHeader(400)
+		w.Write([]byte("bundle-version is required"))
+		return isDone
+	}
+
+	// Display Image Url (Required)
+	if len(imagePath) == 0 {
+		// Bad Request
+		w.WriteHeader(400)
+		w.Write([]byte("display-image is required"))
+		return isDone
+	}
+
+	// Full Image Url (Optional)
+	fullImageUrl := query.Get("full-image")
+	// Title (Optional)
+	title := query.Get("title")
 
 	ipaUrl, _ := url.Parse(r.RequestURI)
 	if !r.URL.IsAbs() {
@@ -130,14 +166,23 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 		ipaUrl.Host = r.Host
 	}
 	ipaUrl.RawQuery = ""
-	ipaUrl.Path = "/" + filePath
+	ipaUrl.Path = "/" + ipaPath
+
+	imageUrl, _ := url.Parse(r.RequestURI)
+	if !r.URL.IsAbs() {
+		imageUrl.Scheme = "http"
+		imageUrl.Host = r.Host
+	}
+	imageUrl.RawQuery = ""
+	imageUrl.Path = "/" + imagePath
 
 	params := PlistTemplateParams{}
-	// http://example.com/{filePath}/{bundleId}/{IpaPath}?title={title}&version={bundleVersion}
-	params.Title = r.URL.Query().Get("title")
-	params.BundleVersion = r.URL.Query().Get("version")
+	params.Title = title
+	params.BundleVersion = bundleVersion
 	params.BundleIdentifer = bundleIdentifer
 	params.IpaUrl = ipaUrl.String()
+	params.DisplayImageUrl = imageUrl.String()
+	params.FullSizeImageUrl = fullImageUrl
 
 	tmpl, err := template.New("plist").Parse(PLIST_TEMPLATE)
 

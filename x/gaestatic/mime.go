@@ -7,6 +7,8 @@ import (
     "regexp"
 )
 
+const EXT_IPA = ".ipa"
+
 /**
  * 拡張子取得
  */
