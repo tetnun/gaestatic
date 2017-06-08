@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strconv"
 	"net/http"
-	"html/template"
+	"text/template"
 	"bytes"
 )
 
