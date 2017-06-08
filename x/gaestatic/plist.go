@@ -58,9 +58,8 @@ const PLIST_TEMPLATE string = `<?xml version="1.0" encoding="UTF-8"?>
 					{{end}}
 					<string>software</string>
 					<key>title</key>
-					{{if .Title}}
-					<string>{{.Title}}</string>
-					{{end}}
+					<string>{{if .Title}}{{.Title}}{{else}}sample{{end}}</string>
+
 				</dict>
 			</dict>
 		</array>
