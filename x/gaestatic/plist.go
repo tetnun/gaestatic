@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"text/template"
 	"bytes"
+	"net/url"
 )
 
 const PLIST_TEMPLATE string = `<?xml version="1.0" encoding="UTF-8"?>
@@ -112,7 +113,7 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 		return isDone
 	}
 
-	ipaUrl := r.URL
+	ipaUrl, _ := url.Parse(r.RequestURI)
 	ipaUrl.Path = "/" + tmp[1]
 
 	params := PlistTemplateParams{}
