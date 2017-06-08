@@ -86,6 +86,7 @@ env_variables:
   config_auth_user: {YOUR_BASIC_AUTH_USER_NAME}
   config_auth_pass: {YOUR_BASIC_AUTH_PASSWORD}
   config_pub_dir: {YOUR_PUB_DIR}
+  config_plist_dir: {PLIST_DIR}
   config_storage_type: {STORAGE_TYPE}
   config_auth_file_path: {YOUR_BASIC_AUTH_FILE_PATH}
   config_pub_file_path: {YOUR_PUB_FILE_PATH}
@@ -104,13 +105,23 @@ env_variables:
 | YOUR_BASIC_AUTH_USER_NAME | user123 | Basic Auth Username |
 | YOUR_BASIC_AUTH_PASSWORD | pass123 | Basic Auth Password |
 | YOUR_PUB_DIR | / | URI Path (non Basic Auth) |
-| STORAGE_TYPE | 'file', 'gcs', 'gd' | 'file' : Local File, 'gcs' : GCS, 'blob' : GCS Blobstore, ''gd' : Google Drive (Reserved)|
+| PLIST_DIR | plistdir | dynamic plist basepath (non Basic Auth) |
+| STORAGE_TYPE | 'file', 'gcs', 'blob', 'gd' | backend storage type (*1.) |
 | YOUR_BASIC_AUTH_FILE_PATH | apps/ | File Path Prefix (Basic Auth) |
 | YOUR_PUB_FILE_PATH | apps/ | File Path Prefix (non Basic Auth) |
 | YOUR_BASIC_AUTH_GCS_BUCKET_NAME | example-gcs-apps | GCS Bucket (Basic Auth) |
 | YOUR_BASIC_AUTH_GCS_OBJECT_ROOT | apps/ | GCS Object Prefix (Basic Auth) |
 | YOUR_PUB_GCS_BUCKET_NAME | example-gcs-pub | GCS Bucket (non Basic Auth) |
 | YOUR_PUB_GCS_OBJECT_ROOT | pub/ | GCS Object Prefix (non Basic Auth) |
+
+*1. backend storage types
+
+| Name  | Notes                      |
+| ----- | -------------------------- |
+| file  | Local File (internal GAE)  |
+| gcs   | GCS (limited 32MB File)    |
+| blob  | GCS Blobstore              |
+| gd    | Google Drive (Reserved)    |
 
 ### URL mapping
 
@@ -138,7 +149,7 @@ env_variables:
 | Item        | Notes                                 | Example                                  |
 | ----------- | ------------------------------------- | ---------------------------------------- |
 | GAE_APP_URL | GAE App URL                           | https://example.appspot.com              |
-| PLIST_DIR   | config_plist_dir in app.yaml          | \/\_\_plist\_\_\/                        |
+| PLIST_DIR   | config_plist_dir in app.yaml          | plistdir                        |
 | BUNDLE_ID   | 'bundle-identifier' in plist          | com.example.sample                       |
 | VERSION     | 'bundle-version' in plist             | 1.0                                      |
 | IPA_PATH    | Path part of 'url' in plist           | apps/ios/sample.ipa on GAE_APP_URL (*1.) |
@@ -156,8 +167,8 @@ ${GAE_APP_URL}${PLIST_DIR}/${BUNDLE_ID}/${VERSION}/${IPA_PATH}/${IMG_PATH}/x.pli
 
 ex.) plist
 
-    https://example.appspot.com/__plist__/com.example.sample/1.0/apps/ios/sample.ipa/apps/ios/image.png/x.plist?title=SampleTitle
+    https://example.appspot.com/plistdir/com.example.sample/1.0/apps/ios/sample.ipa/apps/ios/image.png/x.plist?title=SampleTitle
 
 ex.) download url
 
-    itms-services://?action=download-manifest&url=https://example.appspot.com/__plist__/com.example.sample/1.0/apps/ios/sample.ipa/apps/ios/image.png/x.plist%3Ftitle%3DSampleTitle
+    itms-services://?action=download-manifest&url=https://example.appspot.com/plistdir/com.example.sample/1.0/apps/ios/sample.ipa/apps/ios/image.png/x.plist%3Ftitle%3DSampleTitle
