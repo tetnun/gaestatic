@@ -99,6 +99,8 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 
 	filePath := strings.Replace(r.URL.Path, config.PlistDir, "", 1)
 	tmp := strings.SplitN(filePath, "/", 2)
+	// Bundle Identifer
+	bundleIdentifer := tmp[0]
 	if len(tmp) < 2 {
 		// Bad Request
 		w.WriteHeader(400)
@@ -115,9 +117,7 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 	}
 
 	filePath = filePath[0:len(filePath)-len(DYNAMIC_PLIST_POSTFIX)]
-	tmp = strings.SplitN(filePath, "/", 2)
-	bundleIdentifer := tmp[0]
-	if strings.Contains(tmp[1], "..") {
+	if strings.Contains(filePath, "..") {
 		// Bad Request
 		w.WriteHeader(400)
 		w.Write([]byte("invalid path #3"))
@@ -129,7 +129,8 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 		ipaUrl.Scheme = "https"
 		ipaUrl.Host = r.Host
 	}
-	ipaUrl.Path = "/" + tmp[1]
+	ipaUrl.RawQuery = ""
+	ipaUrl.Path = "/" + filePath
 
 	params := PlistTemplateParams{}
 	// http://example.com/{filePath}/{bundleId}/{IpaPath}?title={title}&version={bundleVersion}
