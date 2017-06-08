@@ -104,7 +104,7 @@ env_variables:
 | YOUR_BASIC_AUTH_USER_NAME | user123 | Basic Auth Username |
 | YOUR_BASIC_AUTH_PASSWORD | pass123 | Basic Auth Password |
 | YOUR_PUB_DIR | / | URI Path (non Basic Auth) |
-| config_storage_type | 'file', 'gcs', 'gd' | 'file' : Local File, 'gcs' : GCS, 'gd' : Google Drive (Reserved)|
+| STORAGE_TYPE | 'file', 'gcs', 'gd' | 'file' : Local File, 'gcs' : GCS, 'blob' : GCS Blobstore, ''gd' : Google Drive (Reserved)|
 | YOUR_BASIC_AUTH_FILE_PATH | apps/ | File Path Prefix (Basic Auth) |
 | YOUR_PUB_FILE_PATH | apps/ | File Path Prefix (non Basic Auth) |
 | YOUR_BASIC_AUTH_GCS_BUCKET_NAME | example-gcs-apps | GCS Bucket (Basic Auth) |
@@ -130,3 +130,34 @@ env_variables:
 
 
 
+### iOS OTA Download URL
+
+
+#### example values
+
+| Item        | Notes                                 | Example                                  |
+| ----------- | ------------------------------------- | ---------------------------------------- |
+| GAE_APP_URL | GAE App URL                           | https://example.appspot.com              |
+| PLIST_DIR   | config_plist_dir in app.yaml          | \/__plist__\/                            |
+| BUNDLE_ID   | 'bundle-identifier' in plist          | com.example.sample                       |
+| VERSION     | 'bundle-version' in plist             | 1.0                                      |
+| IPA_PATH    | Path part of 'url' in plist           | apps/ios/sample.ipa on GAE_APP_URL (*1.) |
+| IMG_PATH    | path part of 'display-image' in plist | apps/ios/sample.png on GAE_APP_URL (*2.) |
+| TITLE       | 'title' in plist                      | SampleTitle                              |
+
+*1. absolute url is https://example.appspot.com/apps/ios/sample.ipa
+
+*2. absolute url is https://example.appspot.com/apps/ios/sample.png
+
+
+#### PLIST URL format
+
+${GAE_APP_URL}${PLIST_DIR}/${BUNDLE_ID}/${VERSION}/${IPA_PATH}/${IMG_PATH}/x.plist?title=${TITLE}
+
+ex.) plist
+
+    https://example.appspot.com/__plist__/com.example.sample/1.0/apps/ios/sample.ipa/apps/ios/image.png/x.plist?title=SampleTitle
+
+ex.) download url
+
+    itms-services://?action=download-manifest&url=https://example.appspot.com/__plist__/com.example.sample/1.0/apps/ios/sample.ipa/apps/ios/image.png/x.plist%3Ftitle%3DSampleTitle
