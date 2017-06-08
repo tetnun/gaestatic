@@ -127,8 +127,8 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 		return isDone
 	}
 	tmp = rex.FindStringSubmatch(filePath)
-	ipaPath := tmp[0]
-	imagePath := tmp[1]
+	ipaPath := tmp[1]
+	imagePath := tmp[2]
 
 
 	if len(bundleIdentifer) == 0 {
