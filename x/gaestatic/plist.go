@@ -159,17 +159,21 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 	title := query.Get("title")
 
 	ipaUrl, _ := url.Parse(r.URL.String())
-	if !r.URL.IsAbs() {
+	ipaUrl.Host = r.Host
+	if r.URL.IsAbs() {
+		ipaUrl.Scheme = r.URL.Scheme
+	} else {
 		ipaUrl.Scheme = "http"
-		ipaUrl.Host = r.Host
 	}
 	ipaUrl.RawQuery = ""
 	ipaUrl.Path = "/" + ipaPath
 
 	imageUrl, _ := url.Parse(r.URL.String())
-	if !r.URL.IsAbs() {
+	imageUrl.Host = r.Host
+	if r.URL.IsAbs() {
+		imageUrl.Scheme = r.URL.Scheme
+	} else {
 		imageUrl.Scheme = "http"
-		imageUrl.Host = r.Host
 	}
 	imageUrl.RawQuery = ""
 	imageUrl.Path = "/" + imagePath
