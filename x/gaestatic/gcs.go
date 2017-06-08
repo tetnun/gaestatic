@@ -59,11 +59,14 @@ func blobHandler(w http.ResponseWriter, r *http.Request, isAuth bool) bool {
 		return isDone
 	}
 
+	/*
 	contentType := GetContentType(objectName)
 	if contentType != "" {
 		w.Header().Set("Content-Type", contentType)
 	}
 	blobstore.Send(w, blobKey)
+	*/
+	w.Write([]byte(fmt.Sprintf("BlobPath=%s, BlobKey=%s", blobPath, blobKey)))
 	return isDone
 }
 
