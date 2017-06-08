@@ -89,6 +89,8 @@ func (self *AppConfig) Initialize() {
     self.PlistDir = os.Getenv("config_plist_dir")
     self.StorageType = StorageType(os.Getenv("config_storage_type"))
     switch self.StorageType {
+    case STORAGE_TYPE_BLOB:
+        fallthrough
     case STORAGE_TYPE_GCS:
         gcsConfig := GcsAppConfig{}
         gcsConfig.AuthBucket = os.Getenv("config_auth_gcs_bucket")
@@ -96,8 +98,6 @@ func (self *AppConfig) Initialize() {
         gcsConfig.PubBucket = os.Getenv("config_pub_gcs_bucket")
         gcsConfig.PubObjectRoot = os.Getenv("config_pub_gcs_object_root")
         self.GcsConfig = gcsConfig
-    case STORAGE_TYPE_BLOB:
-        fallthrough
     case STORAGE_TYPE_GD:
         driveConfig := DriveAppConfig{}
         driveConfig.ClientID = os.Getenv("config_client_id")
