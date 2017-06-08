@@ -9,62 +9,61 @@ import (
 	"bytes"
 )
 
-const PLIST_TEMPLATE string = `
-<?xml version="1.0" encoding="UTF-8"?>
-    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-    <plist version="1.0">
-        <dict>
-            <key>items</key>
-            <array>
-                <dict>
-                    <key>assets</key>
-                    <array>
-                        {{if .IpaUrl}}
-                        <dict>
-                            <key>kind</key>
-                            <string>software-package</string>
-                            <key>url</key>
-                            <string>{{.IpaUrl}}</string>
-                        </dict>
-                        {{end}}
-                        {{if .DisplayImageUrl}}
-                        <dict>
-                            <key>kind</key>
-                            <string>display-image</string>
-                            <key>url</key>
-                            <string>{{.DisplayImageUrl}}</string>
-                        </dict>
-                        {{end}}
-                        {{if .FullSizeImageUrl}}
-                        <dict>
-                            <key>kind</key>
-                            <string>full-size-image</string>
-                            <key>url</key>
-                            <string>{{.FullSizeImageUrl}}</string>
-                        </dict>
-                        {{end}}
-                    </array>
-                    <key>metadata</key>
-                    <dict>
-                        {{if .BundleIdentifer}}
-                        <key>bundle-identifier</key>
-                        <string>{{.BundleIdentifer}}</string>
-                        {{end}}
-                        {{if .BundleVersion}}
-                        <key>bundle-version</key>
-                        <string>{{.BundleVersion}}</string>
-                        <key>kind</key>
-                        {{end}}
-                        {{if .Title}}
-                        <string>software</string>
-                        <key>title</key>
-                        <string>{{.Title}}</string>
-                        {{end}}
-                    </dict>
-                </dict>
-            </array>
-        </dict>
-    </plist>
+const PLIST_TEMPLATE string = `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>items</key>
+		<array>
+			<dict>
+				<key>assets</key>
+				<array>
+					{{if .IpaUrl}}
+					<dict>
+						<key>kind</key>
+						<string>software-package</string>
+						<key>url</key>
+						<string>{{.IpaUrl}}</string>
+					</dict>
+					{{end}}
+					{{if .DisplayImageUrl}}
+					<dict>
+						<key>kind</key>
+						<string>display-image</string>
+						<key>url</key>
+						<string>{{.DisplayImageUrl}}</string>
+					</dict>
+					{{end}}
+					{{if .FullSizeImageUrl}}
+					<dict>
+						<key>kind</key>
+						<string>full-size-image</string>
+						<key>url</key>
+						<string>{{.FullSizeImageUrl}}</string>
+					</dict>
+					{{end}}
+				</array>
+				<key>metadata</key>
+				<dict>
+					{{if .BundleIdentifer}}
+					<key>bundle-identifier</key>
+					<string>{{.BundleIdentifer}}</string>
+					{{end}}
+					{{if .BundleVersion}}
+					<key>bundle-version</key>
+					<string>{{.BundleVersion}}</string>
+					<key>kind</key>
+					{{end}}
+					{{if .Title}}
+					<string>software</string>
+					<key>title</key>
+					<string>{{.Title}}</string>
+					{{end}}
+				</dict>
+			</dict>
+		</array>
+	</dict>
+</plist>
 `
 
 type PlistTemplateParams struct {
@@ -129,7 +128,7 @@ func plistHandler(w http.ResponseWriter, r *http.Request) bool {
 	}
 	contentLength = contentLength + "bytes"
 
-	contentType := GetContentType(filePath)
+	contentType := GetContentType("_.plist")
 	if contentType != "" {
 		w.Header().Set("Content-Type", contentType)
 	}
