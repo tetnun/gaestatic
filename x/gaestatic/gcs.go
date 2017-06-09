@@ -59,6 +59,17 @@ func blobHandler(w http.ResponseWriter, r *http.Request, isAuth bool) bool {
 		return isDone
 	}
 
+	blobInfo, err := blobstore.Stat(ctx, blobKey)
+	if err != nil {
+		// Forbidden : Unknown Size.
+		w.WriteHeader(404)
+		w.Write([]byte(fmt.Sprintf("BlobPath=%s, BlobKey Stat failed.", blobPath)))
+		return isDone
+	}
+	contentLength := strconv.FormatInt(blobInfo.Size, 10)
+	contentLength = contentLength + "bytes"
+
+
 	contentType := GetContentType(objectName)
 	if contentType != "" {
 		w.Header().Set("Content-Type", contentType)
